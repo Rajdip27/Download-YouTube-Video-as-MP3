@@ -1,0 +1,292 @@
+﻿@model YoutubeDownloaderMvc.Models.DownloadModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube to MP3 Downloader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Container Styling */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Title Styling */
+        .title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Form Styling */
+        .download-form {
+            width: 100%;
+            background: #fff;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .download-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Input Group Styling */
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .video-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            color: #333;
+            background: transparent;
+        }
+
+        .video-input::placeholder {
+            color: #999;
+        }
+
+        /* Button Styling */
+        .download-button {
+            padding: 15px 30px;
+            border: none;
+            background: #ff4b4b;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 50px 50px 0;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .download-button:hover {
+            background: #e43a3a;
+            transform: scale(1.05);
+        }
+
+        .download-button:active {
+            transform: scale(0.95);
+        }
+
+        .download-button.loading {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .download-button.loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+        }
+
+        /* Download Ready Container */
+        .download-ready-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .download-ready-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: #ff4b4b;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .download-link:hover {
+            background: #e43a3a;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-link:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-link i {
+            margin-right: 10px;
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #ff4b4b;
+            font-size: 1rem;
+            text-align: center;
+            margin: 2rem;
+        }
+
+        /* Animations */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @@media (max-width: 600px) {
+            .title {
+                font-size: 1.8rem;
+            }
+
+            .download-form {
+                border-radius: 25px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .video-input {
+                width: 100%;
+                padding: 15px;
+                text-align: center;
+            }
+
+            .download-button {
+                width: 100%;
+                border-radius: 0 0 25px 25px;
+                padding: 15px;
+            }
+
+            .download-ready-container {
+                margin: 1rem;
+                padding: 15px;
+            }
+
+            .download-ready-title {
+                font-size: 1.6rem;
+            }
+
+            .download-link {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @if (Model?.FileName != null)
+        {
+            <div class="download-ready-container">
+                <h3 class="download-ready-title">Download Ready!</h3>
+                <a asp-action="GetFile" asp-route-fileName="@Model.FileName" class="download-link">
+                    <i class="fas fa-download"></i> Download: @Model.FileName
+                </a>
+            </div>
+        }
+        else
+        {
+            <h2 class="title">Download YouTube Video as MP3</h2>
+            <form method="post" asp-action="Download" class="download-form">
+                <div class="input-group">
+                    <input type="text" name="VideoUrl" placeholder="Paste YouTube Link" required class="video-input" />
+                    <button type="submit" class="download-button">Download MP3</button>
+                </div>
+                @if (ViewData.ModelState.ContainsKey("") && ViewData.ModelState[""].Errors.Any())
+                {
+                    <div class="error-message">
+                        @ViewData.ModelState[""].Errors.First().ErrorMessage
+                    </div>
+                }
+            </form>
+        }
+    </div>
+
+    <script>
+        // Client-side validation for YouTube URL
+        document.querySelector('.download-form')?.addEventListener('submit', function(e) {
+            const url = document.querySelector('.video-input').value;
+            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+            if (!youtubeRegex.test(url)) {
+                e.preventDefault();
+                alert('Please enter a valid YouTube URL');
+            } else {
+                const button = document.querySelector('.download-button');
+                button.classList.add('loading');
+                button.disabled = true;
+                button.textContent = 'Processing...';
+            }
+        });
+
+        // Auto-trigger download if file is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadLink = document.querySelector('.download-link');
+            if (downloadLink) {
+                downloadLink.click();
+            }
+        });
+    </script>
+</body>
+</html>

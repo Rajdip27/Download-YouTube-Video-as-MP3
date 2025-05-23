@@ -1,0 +1,141 @@
+﻿@model YoutubeDownloaderMvc.Models.DownloadModel
+
+<style>
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    /* Container Styling */
+    .yd-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 20px;
+    }
+
+    /* Title Styling */
+    .yd-title {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 2rem;
+        text-align: center;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        animation: yd-fadeIn 1s ease-in-out;
+    }
+
+    /* Form Styling */
+    .yd-download-form {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    /* Input Group Styling */
+    .yd-input-group {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        background: #fff;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .yd-input-group:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+    /* Input Styling */
+    .yd-video-input {
+        flex: 1;
+        padding: 15px 20px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        color: #333;
+        background: transparent;
+    }
+
+        .yd-video-input::placeholder {
+            color: #999;
+        }
+
+    /* Button Styling */
+    .yd-download-button {
+        padding: 15px 30px;
+        border: none;
+        background: #ff4b4b;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 0 50px 50px 0;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+        .yd-download-button:hover {
+            background: #e43a3a;
+            transform: scale(1.05);
+        }
+
+        .yd-download-button:active {
+            transform: scale(0.95);
+        }
+
+    /* Animation for Title */
+    @@keyframes yd-fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 600px) {
+        .yd-title {
+            font-size: 1.8rem;
+        }
+
+        .yd-input-group {
+            flex-direction: column;
+            border-radius: 25px;
+        }
+
+        .yd-video-input {
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .yd-download-button {
+            width: 100%;
+            border-radius: 0 0 25px 25px;
+            padding: 15px;
+        }
+    }
+</style>
+
+<div class="yd-container">
+    <h2 class="yd-title">Download YouTube Video as MP3</h2>
+    <form method="post" asp-action="Download" class="yd-download-form">
+        <div class="yd-input-group">
+            <input type="text" name="VideoUrl" placeholder="Paste YouTube Link" required class="yd-video-input" />
+            <button type="submit" class="yd-download-button">Download MP3</button>
+        </div>
+    </form>
+</div>
