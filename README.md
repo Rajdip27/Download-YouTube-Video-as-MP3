@@ -28,7 +28,7 @@ This is an ASP.NET Core MVC application that allows users to download MP3 audio 
 
 ## 🔧 Project Structure
 
-```
+
 
 YoutubeDownloaderMvc/
 ├── Controllers/
@@ -50,7 +50,7 @@ YoutubeDownloaderMvc/
 ├── appsettings.json
 └── YoutubeDownloaderMvc.csproj
 
-````
+
 
 ---
 
